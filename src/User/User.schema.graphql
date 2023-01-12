@@ -1,0 +1,20 @@
+type User {
+  Id: Int!
+  UserName: String
+  CreatedAt: Date
+  UpdatedAt: Date
+}
+
+type Query {
+  user(Id: Int!): User
+}
+
+type Mutation {
+  userCreate(UserName: String!, PassWord: String!): User
+  userUpdate(Id: Int!, UserName: String!): User
+  userChangePassWord(
+    UserName: String!
+    OldPassWord: String!
+    NewPassWord: String!
+  ): User
+}

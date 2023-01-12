@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/games-db"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  Id             Int      @id @default(autoincrement())
+  UserName       String   @db.VarChar(100)
+  HashedPassWord String   @db.VarChar(255)
+  CreatedAt      DateTime @default(now())
+  UpdatedAt      DateTime @updatedAt
+}
+
+model Game {
+  Id        Int      @id @default(autoincrement())
+  Name      String   @db.VarChar(100)
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+}
