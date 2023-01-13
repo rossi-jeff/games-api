@@ -9,7 +9,7 @@
     "start": "nodemon src/server.ts",
     "migrate": "npx prisma migrate dev",
     "seed:words": "ts-node seed/words.ts",
-    "clear":"ts-node seed/clear.ts"
+    "clear": "ts-node seed/clear.ts"
   },
   "keywords": [],
   "author": "Jeff Rossi <rossi.jeff@gmail.com>",
@@ -29,7 +29,6 @@
     "@graphql-tools/load-files": "^6.6.1",
     "@prisma/client": "^4.8.1",
     "apollo-server": "^3.11.1",
-    "bcrypt": "^5.1.0",
-    "graphql": "^16.6.0"
+    "bcrypt": "^5.1.0"
   }
 }
