@@ -11,6 +11,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Game {
+  Id        Int      @id @default(autoincrement())
+  Name      String   @db.VarChar(100)
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+}
+
 model User {
   Id             Int      @id @default(autoincrement())
   UserName       String   @db.VarChar(100)
@@ -19,9 +26,10 @@ model User {
   UpdatedAt      DateTime @updatedAt
 }
 
-model Game {
+model Word {
   Id        Int      @id @default(autoincrement())
-  Name      String   @db.VarChar(100)
+  Word      String   @db.VarChar(25)
+  Length    Int
   CreatedAt DateTime @default(now())
   UpdatedAt DateTime @updatedAt
 }

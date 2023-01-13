@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "codegen": "graphql-codegen --config codegen.ts",
-    "start": "nodemon src/server.ts"
+    "start": "nodemon src/server.ts",
+    "migrate": "npx prisma migrate dev",
+    "seed:words": "ts-node seed/words.ts",
+    "clear":"ts-node seed/clear.ts"
   },
   "keywords": [],
   "author": "Jeff Rossi <rossi.jeff@gmail.com>",

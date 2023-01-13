@@ -1,0 +1,18 @@
+type Word {
+  Id: Int!
+  Word: String
+  Length: Int
+  CreatedAt: Date
+  UpdatedAt: Date
+}
+
+input WordFilter {
+  Min: Int
+  Max: Int
+  Length: Int
+}
+
+type Query {
+  wordRandom(filter: WordFilter): Word
+  word(Id: Int!): Word
+}
