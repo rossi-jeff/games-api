@@ -17,8 +17,21 @@ input WordFilter {
   Length: Int
 }
 
+enum Rating {
+  Green
+  Brown
+  Gray
+}
+
+type RateResult {
+  Id: Int
+  Guess: String
+  Ratings: [Rating]
+}
+
 type Query {
   wordRandom(filter: WordFilter): Word
   word(Id: Int!): Word
   wordStats: [WordStat]
+  wordRate(Id: Int!, Guess: String!): RateResult
 }
