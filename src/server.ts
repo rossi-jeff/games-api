@@ -1,4 +1,4 @@
-const { loadFiles } = require("@graphql-tools/load-files");
+import { loadFiles } from "@graphql-tools/load-files";
 import { ApolloServer } from "apollo-server";
 
 import { resolvers } from "./resolvers";
