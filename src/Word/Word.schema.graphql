@@ -6,6 +6,11 @@ type Word {
   UpdatedAt: Date
 }
 
+type WordStat {
+  Length: Int
+  Count: Int
+}
+
 input WordFilter {
   Min: Int
   Max: Int
@@ -15,4 +20,5 @@ input WordFilter {
 type Query {
   wordRandom(filter: WordFilter): Word
   word(Id: Int!): Word
+  wordStats: [WordStat]
 }
