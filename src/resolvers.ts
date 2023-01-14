@@ -1,6 +1,4 @@
 import { Resolvers } from '../generated/graphql'
-import { gameCreate, gameUpdate } from './Game/mutations'
-import { games, game } from './Game/queries'
 import { hangManCreate, hangManGuess } from './HangMan/mutations'
 import { hangMen, hangMan } from './HangMan/queries'
 import { HangMan } from './HangMan/hangman'
@@ -14,8 +12,6 @@ import { GuessWordGuess } from './GuessWord/guess-word-guess'
 
 export const resolvers: Resolvers = {
 	Query: {
-		games,
-		game,
 		guessWords,
 		guessWord,
 		hangMen,
@@ -27,8 +23,6 @@ export const resolvers: Resolvers = {
 		wordRate,
 	},
 	Mutation: {
-		gameCreate,
-		gameUpdate,
 		guessWordCreate,
 		guessWordGuess,
 		hangManCreate,
