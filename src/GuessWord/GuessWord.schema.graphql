@@ -1,0 +1,30 @@
+type GuessWord {
+	Id: Int!
+	Status: GameStatus
+	CreatedAt: Date
+	UpdatedAt: Date
+
+	Guesses: [GuessWordGuess]
+	User: User
+	Word: Word
+}
+
+type GuessWordGuess {
+	Id: Int!
+	Guess: String
+	Ratings: [GuessWordGuessRating]
+}
+
+type GuessWordGuessRating {
+	Rating: Rating
+}
+
+type Query {
+	guessWords: [GuessWord]
+	guessWord(Id: Int!): GuessWord
+}
+
+type Mutation {
+	guessWordCreate(WordId: Int!, UserId: Int): GuessWord
+	guessWordGuess(Id: Int!, Guess: String!): GuessWord
+}

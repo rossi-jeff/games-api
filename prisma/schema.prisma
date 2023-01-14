@@ -11,6 +11,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model GuessWord {
+  Id        Int        @id @default(autoincrement())
+  WordId    Int
+  UserId    Int?
+  Status    GameStatus
+  CreatedAt DateTime   @default(now())
+  UpdatedAt DateTime   @updatedAt
+
+  User    User?            @relation(fields: [UserId], references: [Id])
+  Word    Word             @relation(fields: [WordId], references: [Id])
+  Guesses GuessWordGuess[]
+}
+
+model GuessWordGuess {
+  Id          Int      @id @default(autoincrement())
+  GuessWordId Int
+  Guess       String   @db.VarChar(25)
+  CreatedAt   DateTime @default(now())
+  UpdatedAt   DateTime @updatedAt
+
+  GuessWord GuessWord              @relation(fields: [GuessWordId], references: [Id])
+  Ratings   GuessWordGuessRating[]
+}
+
+model GuessWordGuessRating {
+  Id               Int      @id @default(autoincrement())
+  GuessWordGuessId Int
+  Rating           Rating
+  CreatedAt        DateTime @default(now())
+  UpdatedAt        DateTime @updatedAt
+
+  GuessWordGuess GuessWordGuess @relation(fields: [GuessWordGuessId], references: [Id])
+}
+
+enum Rating {
+  Green
+  Brown
+  Gray
+}
+
 model HangMan {
   Id        Int        @id @default(autoincrement())
   WordId    Int
@@ -45,7 +85,8 @@ model User {
   CreatedAt      DateTime @default(now())
   UpdatedAt      DateTime @updatedAt
 
-  HangMen HangMan[]
+  HangMen    HangMan[]
+  GuessWords GuessWord[]
 }
 
 model Word {
@@ -55,5 +96,6 @@ model Word {
   CreatedAt DateTime @default(now())
   UpdatedAt DateTime @updatedAt
 
-  HangMen HangMan[]
+  HangMen    HangMan[]
+  GuessWords GuessWord[]
 }
