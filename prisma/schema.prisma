@@ -11,6 +11,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model HangMan {
+  Id        Int        @id @default(autoincrement())
+  WordId    Int
+  UserId    Int?
+  Correct   String
+  Wrong     String
+  Status    GameStatus
+  CreatedAt DateTime   @default(now())
+  UpdatedAt DateTime   @updatedAt
+
+  User User? @relation(fields: [UserId], references: [Id])
+  Word Word  @relation(fields: [WordId], references: [Id])
+}
+
+enum GameStatus {
+  Playing
+  Won
+  Lost
+}
+
 model Game {
   Id        Int      @id @default(autoincrement())
   Name      String   @db.VarChar(100)
@@ -24,6 +44,8 @@ model User {
   HashedPassWord String   @db.VarChar(255)
   CreatedAt      DateTime @default(now())
   UpdatedAt      DateTime @updatedAt
+
+  HangMen HangMan[]
 }
 
 model Word {
@@ -32,4 +54,6 @@ model Word {
   Length    Int
   CreatedAt DateTime @default(now())
   UpdatedAt DateTime @updatedAt
+
+  HangMen HangMan[]
 }
