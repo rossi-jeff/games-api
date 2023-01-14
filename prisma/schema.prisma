@@ -11,6 +11,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum GameStatus {
+  Playing
+  Won
+  Lost
+}
+
 model GuessWord {
   Id        Int        @id @default(autoincrement())
   WordId    Int
@@ -45,12 +51,6 @@ model GuessWordGuessRating {
   GuessWordGuess GuessWordGuess @relation(fields: [GuessWordGuessId], references: [Id])
 }
 
-enum Rating {
-  Green
-  Brown
-  Gray
-}
-
 model HangMan {
   Id        Int        @id @default(autoincrement())
   WordId    Int
@@ -65,17 +65,10 @@ model HangMan {
   Word Word  @relation(fields: [WordId], references: [Id])
 }
 
-enum GameStatus {
-  Playing
-  Won
-  Lost
-}
-
-model Game {
-  Id        Int      @id @default(autoincrement())
-  Name      String   @db.VarChar(100)
-  CreatedAt DateTime @default(now())
-  UpdatedAt DateTime @updatedAt
+enum Rating {
+  Green
+  Brown
+  Gray
 }
 
 model User {
