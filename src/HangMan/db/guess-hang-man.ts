@@ -37,8 +37,12 @@ export const guessHangMan = async (args: MutationHangManGuessArgs) => {
 	})
 	if (!existing) throw new Error('Hangman not found')
 	const { Word, Correct: CorrectStr, Wrong: WrongStr } = existing
-	const CorrectArr: string[] = CorrectStr.split(',')
-	const WrongArr: string[] = WrongStr.split(',')
+	const CorrectArr: string[] = CorrectStr.trim()
+		.split(',')
+		.filter((x) => x.length > 0)
+	const WrongArr: string[] = WrongStr.trim()
+		.split(',')
+		.filter((x) => x.length > 0)
 	let Found: boolean = false
 	if (Word.Word.includes(Guess)) {
 		Found = true
