@@ -8,6 +8,10 @@ const config: CodegenConfig = {
 			plugins: ['typescript', 'typescript-resolvers'],
 			config: {
 				mappers: {
+					GuessWord: '../src/GuessWord/types#GuessWordType',
+					GuessWordGuess: '../src/GuessWord/types#GuessWordGuessType',
+					GuessWordGuessRating:
+						'../src/GuessWord/types#GuessWordGuessRatingType',
 					HangMan: '../src/HangMan/types#HangManType',
 				},
 			},
