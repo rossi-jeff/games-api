@@ -9,9 +9,20 @@ import { guessWords, guessWord } from './GuessWord/queries'
 import { guessWordCreate, guessWordGuess } from './GuessWord/mutations'
 import { GuessWord } from './GuessWord/guess-word'
 import { GuessWordGuess } from './GuessWord/guess-word-guess'
+import { codeBreakerCreate, codeBreakerGuess } from './CodeBreaker/mutations'
+import { CodeBreaker } from './CodeBreaker/code-breaker'
+import { CodeBreakerGuess } from './CodeBreaker/code-breaker-guess'
+import {
+	codeBreaker,
+	codeBreakers,
+	codeBreakerSolution,
+} from './CodeBreaker/queries'
 
 export const resolvers: Resolvers = {
 	Query: {
+		codeBreakers,
+		codeBreaker,
+		codeBreakerSolution,
 		guessWords,
 		guessWord,
 		hangMen,
@@ -23,6 +34,8 @@ export const resolvers: Resolvers = {
 		wordRate,
 	},
 	Mutation: {
+		codeBreakerCreate,
+		codeBreakerGuess,
 		guessWordCreate,
 		guessWordGuess,
 		hangManCreate,
@@ -31,6 +44,8 @@ export const resolvers: Resolvers = {
 		userUpdate,
 		userChangePassWord,
 	},
+	CodeBreaker,
+	CodeBreakerGuess,
 	GuessWord,
 	GuessWordGuess,
 	HangMan,

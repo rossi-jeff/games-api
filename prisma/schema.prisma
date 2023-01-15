@@ -11,6 +11,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model CodeBreaker {
+  Id        Int        @id @default(autoincrement())
+  UserId    Int?
+  Status    GameStatus
+  Columns   Int
+  CreatedAt DateTime   @default(now())
+  UpdatedAt DateTime   @updatedAt
+
+  Code    CodeBreakerCode[]
+  Guesses CodeBreakerGuess[]
+}
+
+model CodeBreakerCode {
+  Id            Int      @id @default(autoincrement())
+  CodeBreakerId Int
+  Color         Color
+  CreatedAt     DateTime @default(now())
+  UpdatedAt     DateTime @updatedAt
+
+  CodeBreaker CodeBreaker @relation(fields: [CodeBreakerId], references: [Id])
+}
+
+model CodeBreakerGuess {
+  Id            Int      @id @default(autoincrement())
+  CodeBreakerId Int
+  CreatedAt     DateTime @default(now())
+  UpdatedAt     DateTime @updatedAt
+
+  CodeBreaker CodeBreaker             @relation(fields: [CodeBreakerId], references: [Id])
+  Colors      CodeBreakerGuessColor[]
+  Keys        CodeBreakerGuessKey[]
+}
+
+model CodeBreakerGuessColor {
+  Id                 Int      @id @default(autoincrement())
+  CodeBreakerGuessId Int
+  Color              Color
+  CreatedAt          DateTime @default(now())
+  UpdatedAt          DateTime @updatedAt
+
+  CodeBreakerGuess CodeBreakerGuess @relation(fields: [CodeBreakerGuessId], references: [Id])
+}
+
+model CodeBreakerGuessKey {
+  Id                 Int      @id @default(autoincrement())
+  CodeBreakerGuessId Int
+  Key                Key
+  CreatedAt          DateTime @default(now())
+  UpdatedAt          DateTime @updatedAt
+
+  CodeBreakerGuess CodeBreakerGuess @relation(fields: [CodeBreakerGuessId], references: [Id])
+}
+
+enum Color {
+  Red
+  Orange
+  Yellow
+  Green
+  Blue
+  Purple
+  Brown
+  Black
+  White
+}
+
+enum Key {
+  Black
+  White
+}
+
 enum GameStatus {
   Playing
   Won
