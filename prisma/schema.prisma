@@ -141,6 +141,86 @@ enum Rating {
   Gray
 }
 
+model SeaBattle {
+  Id        Int      @id @default(autoincrement())
+  UserId    Int?
+  Axis      Int
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+
+  User  User?           @relation(fields: [UserId], references: [Id])
+  Ships SeaBattleShip[]
+  Turns SeaBattleTurn[]
+}
+
+model SeaBattleShip {
+  Id          Int       @id @default(autoincrement())
+  SeaBattleId Int
+  Type        ShipType?
+  Navy        Navy?
+  Size        Int?
+  Sunk        Boolean?  @default(false)
+  CreatedAt   DateTime  @default(now())
+  UpdatedAt   DateTime  @updatedAt
+
+  SeaBattle  SeaBattle                @relation(fields: [SeaBattleId], references: [Id])
+  GridPoints SeaBattleShipGridPoint[]
+}
+
+model SeaBattleTurn {
+  Id          Int       @id @default(autoincrement())
+  SeaBattleId Int
+  Navy        Navy?
+  Target      Target?
+  ShipType    ShipType?
+  CreatedAt   DateTime  @default(now())
+  UpdatedAt   DateTime  @updatedAt
+
+  SeaBattle SeaBattle                @relation(fields: [SeaBattleId], references: [Id])
+  GridPoint SeaBattleTurnGridPoint[]
+}
+
+model SeaBattleShipGridPoint {
+  Id              Int      @id @default(autoincrement())
+  SeaBattleShipId Int
+  Horizontal      String?  @db.Char(1)
+  Vertical        Int?
+  CreatedAt       DateTime @default(now())
+  UpdatedAt       DateTime @updatedAt
+
+  SeaBattleShip SeaBattleShip @relation(fields: [SeaBattleShipId], references: [Id])
+}
+
+model SeaBattleTurnGridPoint {
+  Id              Int      @id @default(autoincrement())
+  SeaBattleTurnId Int
+  Horizontal      String?  @db.Char(1)
+  Vertical        Int?
+  CreatedAt       DateTime @default(now())
+  UpdatedAt       DateTime @updatedAt
+
+  SeaBattleTurn SeaBattleTurn @relation(fields: [SeaBattleTurnId], references: [Id])
+}
+
+enum ShipType {
+  Carrier
+  BattleShip
+  Cruiser
+  SubMarine
+  PatrolBoat
+}
+
+enum Navy {
+  Player
+  Opponent
+}
+
+enum Target {
+  Miss
+  Hit
+  Sunk
+}
+
 model User {
   Id             Int      @id @default(autoincrement())
   UserName       String   @db.VarChar(100)
@@ -150,6 +230,7 @@ model User {
 
   HangMen    HangMan[]
   GuessWords GuessWord[]
+  SeaBattles SeaBattle[]
 }
 
 model Word {
