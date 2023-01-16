@@ -17,6 +17,11 @@ import {
 	codeBreakers,
 	codeBreakerSolution,
 } from './CodeBreaker/queries'
+import { seaBattles, seaBattle } from './SeaBattle/queries'
+import { seaBattleCreate, seaBattleShip } from './SeaBattle/mutations'
+import { SeaBattle } from './SeaBattle/sea-battle'
+import { SeaBattleShip } from './SeaBattle/sea-battle-ship'
+import { SeaBattleTurn } from './SeaBattle/sea-battle-turn'
 
 export const resolvers: Resolvers = {
 	Query: {
@@ -27,6 +32,8 @@ export const resolvers: Resolvers = {
 		guessWord,
 		hangMen,
 		hangMan,
+		seaBattles,
+		seaBattle,
 		user,
 		word,
 		wordRandom,
@@ -40,6 +47,8 @@ export const resolvers: Resolvers = {
 		guessWordGuess,
 		hangManCreate,
 		hangManGuess,
+		seaBattleCreate,
+		seaBattleShip,
 		userCreate,
 		userUpdate,
 		userChangePassWord,
@@ -49,4 +58,7 @@ export const resolvers: Resolvers = {
 	GuessWord,
 	GuessWordGuess,
 	HangMan,
+	SeaBattle,
+	SeaBattleShip,
+	SeaBattleTurn,
 }

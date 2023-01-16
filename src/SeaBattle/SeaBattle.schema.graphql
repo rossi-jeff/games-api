@@ -55,12 +55,17 @@ enum Target {
 input ShipInput {
 	Navy: Navy!
 	Type: ShipType!
-	GridPoints: [GridPoint]
+	GridPoints: [GridPointInput]
 }
 
 input SeaBattleTurnInput {
 	Navy: Navy!
-	GridPoint: GridPoint
+	GridPoint: GridPointInput
+}
+
+input GridPointInput {
+	Horizontal: String
+	Vertical: Int
 }
 
 type Query {
@@ -71,6 +76,6 @@ type Query {
 type Mutation {
 	seaBattleCreate(Axis: Int!, UserId: Int): SeaBattle
 	seaBattleShip(Id: Int!, ship: ShipInput!): SeaBattleShip
-	seaBattleShipMove(Id: Int!, GridPoints: [GridPoint!]!): SeaBattleShip
+	seaBattleShipMove(Id: Int!, GridPoints: [GridPointInput!]!): SeaBattleShip
 	seaBattleTurn(Id: Int!, turn: SeaBattleTurnInput!): SeaBattleTurn
 }
