@@ -1,7 +1,19 @@
 import { MutationCodeBreakerGuessArgs } from '../../../generated/graphql'
 import { db } from '../../db'
-import { codeBreakerGuess } from '../mutations'
-import { Key } from '../types'
+import { GameStatus } from '../../HangMan/types'
+import { Color, Key } from '../types'
+
+export const MaxTurns = 12
+
+export const codeBreakerStatus = (
+	Colors: Color[],
+	black: number[],
+	count: number
+) => {
+	if (Colors.length === black.length) return GameStatus.Won
+	if (count >= MaxTurns) return GameStatus.Lost
+	return GameStatus.Playing
+}
 
 export const rateCodeBreakerGuess = async (
 	args: MutationCodeBreakerGuessArgs
@@ -65,6 +77,20 @@ export const rateCodeBreakerGuess = async (
 			},
 		})
 	}
+	const count = await db.client().codeBreakerGuess.count({
+		where: {
+			CodeBreakerId: Id,
+		},
+	})
+	const Status: GameStatus = codeBreakerStatus(Colors, black, count)
+	await db.client().codeBreaker.update({
+		where: {
+			Id,
+		},
+		data: {
+			Status,
+		},
+	})
 	return await db.client().codeBreakerGuess.findFirst({
 		where: {
 			Id: codeBreakerGuess.Id,
