@@ -4,6 +4,7 @@ import {
 	SeaBattleTurn,
 	SeaBattleShipGridPoint,
 	SeaBattleTurnGridPoint,
+	SeaBattleShipHit,
 } from '../../generated/games-db'
 
 export type SeaBattleType = SeaBattle
@@ -15,6 +16,8 @@ export type SeaBattleTurnType = SeaBattleTurn
 export type SeaBattleShipGridPointType = SeaBattleShipGridPoint
 
 export type SeaBattleTurnGridPointType = SeaBattleTurnGridPoint
+
+export type SeaBattleShipHitType = SeaBattleShipHit
 
 export enum Navy {
 	Opponent = 'Opponent',
