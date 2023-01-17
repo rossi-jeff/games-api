@@ -27,6 +27,7 @@ const config: CodegenConfig = {
 						'../src/SeaBattle/types#SeaBattleShipGridPointType',
 					SeaBattleTurnGridPoint:
 						'../src/SeaBattle/types#SeaBattleTurnGridPointType',
+					SeaBattleShipHit: '../src/SeaBattle/types#SeaBattleShipHitType',
 				},
 			},
 		},

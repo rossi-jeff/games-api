@@ -9,4 +9,11 @@ export const SeaBattleShip: Resolvers['SeaBattleShip'] = {
 			},
 		})
 	},
+	Hits: async (parent) => {
+		return await db.client().seaBattleShipHit.findMany({
+			where: {
+				SeaBattleShipId: parent.Id,
+			},
+		})
+	},
 }

@@ -165,6 +165,7 @@ model SeaBattleShip {
 
   SeaBattle  SeaBattle                @relation(fields: [SeaBattleId], references: [Id])
   GridPoints SeaBattleShipGridPoint[]
+  Hits       SeaBattleShipHit[]
 }
 
 model SeaBattleTurn {
@@ -200,6 +201,17 @@ model SeaBattleTurnGridPoint {
   UpdatedAt       DateTime @updatedAt
 
   SeaBattleTurn SeaBattleTurn @relation(fields: [SeaBattleTurnId], references: [Id])
+}
+
+model SeaBattleShipHit {
+  Id              Int      @id @default(autoincrement())
+  SeaBattleShipId Int
+  Horizontal      String?  @db.Char(1)
+  Vertical        Int?
+  CreatedAt       DateTime @default(now())
+  UpdatedAt       DateTime @updatedAt
+
+  SeaBattleShip SeaBattleShip @relation(fields: [SeaBattleShipId], references: [Id])
 }
 
 enum ShipType {

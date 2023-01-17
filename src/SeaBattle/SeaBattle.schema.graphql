@@ -17,6 +17,7 @@ type SeaBattleShip {
 	Sunk: Boolean
 
 	GridPoints: [GridPoint]
+	Hits: [GridPoint]
 }
 
 type SeaBattleTurn {
