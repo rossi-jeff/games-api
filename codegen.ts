@@ -20,6 +20,13 @@ const config: CodegenConfig = {
 					GuessWordGuessRating:
 						'../src/GuessWord/types#GuessWordGuessRatingType',
 					HangMan: '../src/HangMan/types#HangManType',
+					SeaBattle: '../src/SeaBattle/types#SeaBattleType',
+					SeaBattleShip: '../src/SeaBattle/types#SeaBattleShipType',
+					SeaBattleTurn: '../src/SeaBattle/types#SeaBattleTurnType',
+					SeaBattleShipGridPoint:
+						'../src/SeaBattle/types#SeaBattleShipGridPointType',
+					SeaBattleTurnGridPoint:
+						'../src/SeaBattle/types#SeaBattleTurnGridPointType',
 				},
 			},
 		},
