@@ -39,9 +39,11 @@ export const addSeaBattleShip = async (args: MutationSeaBattleShipArgs) => {
 	let idx: number
 	for (let ship of ships) {
 		for (let gridPoint of ship.GridPoints) {
+			if (!gridPoint.Horizontal || !gridPoint.Vertical) continue
 			const { Horizontal, Vertical } = gridPoint
-			if (!Horizontal || !Vertical) continue
-			idx = grid.indexOf({ Horizontal, Vertical })
+			idx = grid.findIndex(
+				(g) => g.Horizontal === Horizontal && g.Vertical === Vertical
+			)
 			if (idx > -1) grid.splice(idx, 1)
 		}
 	}
