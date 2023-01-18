@@ -1,82 +1,83 @@
 type SeaBattle {
-	Id: Int!
-	Axis: Int
-	CreatedAt: Date
-	UpdatedAt: Date
+  Id: Int!
+  Axis: Int
+  Status: GameStatus
+  CreatedAt: Date
+  UpdatedAt: Date
 
-	User: User
-	Ships: [SeaBattleShip]
-	Turns: [SeaBattleTurn]
+  User: User
+  Ships: [SeaBattleShip]
+  Turns: [SeaBattleTurn]
 }
 
 type SeaBattleShip {
-	Id: Int!
-	Type: ShipType
-	Navy: Navy
-	Size: Int
-	Sunk: Boolean
+  Id: Int!
+  Type: ShipType
+  Navy: Navy
+  Size: Int
+  Sunk: Boolean
 
-	GridPoints: [GridPoint]
-	Hits: [GridPoint]
+  GridPoints: [GridPoint]
+  Hits: [GridPoint]
 }
 
 type SeaBattleTurn {
-	Id: Int!
-	Navy: Navy
-	Target: Target
-	ShipType: ShipType
+  Id: Int!
+  Navy: Navy
+  Target: Target
+  ShipType: ShipType
 
-	GridPoint: GridPoint
+  GridPoint: GridPoint
 }
 
 type GridPoint {
-	Horizontal: String
-	Vertical: Int
+  Horizontal: String
+  Vertical: Int
 }
 
 enum ShipType {
-	Carrier
-	BattleShip
-	Cruiser
-	SubMarine
-	PatrolBoat
+  Carrier
+  BattleShip
+  Cruiser
+  SubMarine
+  PatrolBoat
 }
 
 enum Navy {
-	Player
-	Opponent
+  Player
+  Opponent
 }
 
 enum Target {
-	Miss
-	Hit
-	Sunk
+  Miss
+  Hit
+  Sunk
 }
 
 input ShipInput {
-	Navy: Navy!
-	Type: ShipType!
-	GridPoints: [GridPointInput]
+  Navy: Navy!
+  Type: ShipType!
+  GridPoints: [GridPointInput]
 }
 
 input SeaBattleTurnInput {
-	Navy: Navy!
-	GridPoint: GridPointInput
+  Navy: Navy!
+  GridPoint: GridPointInput
 }
 
 input GridPointInput {
-	Horizontal: String
-	Vertical: Int
+  Horizontal: String
+  Vertical: Int
 }
 
 type Query {
-	seaBattles: [SeaBattle]
-	seaBattle(Id: Int!): SeaBattle
+  seaBattles: [SeaBattle]
+  seaBattle(Id: Int!): SeaBattle
 }
 
 type Mutation {
-	seaBattleCreate(Axis: Int!, UserId: Int): SeaBattle
-	seaBattleShip(Id: Int!, ship: ShipInput!): SeaBattleShip
-	seaBattleShipMove(Id: Int!, GridPoints: [GridPointInput!]!): SeaBattleShip
-	seaBattleTurn(Id: Int!, turn: SeaBattleTurnInput!): SeaBattleTurn
+  seaBattleCreate(Axis: Int!, UserId: Int): SeaBattle
+  seaBattleShip(Id: Int!, ship: ShipInput!): SeaBattleShip
+  seaBattleShipMove(Id: Int!, GridPoints: [GridPointInput!]!): SeaBattleShip
+  seaBattleTurn(Id: Int!, turn: SeaBattleTurnInput!): SeaBattleTurn
 }
