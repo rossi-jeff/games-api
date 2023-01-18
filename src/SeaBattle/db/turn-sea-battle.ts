@@ -3,6 +3,7 @@ import { MutationSeaBattleTurnArgs } from '../../../generated/graphql'
 import { db } from '../../db'
 import { ShipType, Target } from '../types'
 import { buildAvailableGrid } from './build-avalable-grid'
+import { setGameStatus } from './set-game-status'
 
 const getShipType = (ship: SeaBattleShip) => {
 	switch (ship.Type) {
@@ -171,5 +172,6 @@ export const turnSeaBattle = async (args: MutationSeaBattleTurnArgs) => {
 			Vertical: vertical,
 		},
 	})
+	await setGameStatus(Id)
 	return turn
 }

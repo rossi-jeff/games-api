@@ -116,7 +116,7 @@ export const addSeaBattleShip = async (args: MutationSeaBattleShipArgs) => {
 			for (let s = 0; s < Size; s++) {
 				if (!V[idxV] || !H[idxH]) {
 					valid = false
-					continue
+					break
 				}
 				point = {
 					Horizontal: H[idxH],
@@ -128,7 +128,7 @@ export const addSeaBattleShip = async (args: MutationSeaBattleShipArgs) => {
 				)
 				if (idx == -1) {
 					valid = false
-					continue
+					break
 				}
 				points.push(point)
 				switch (direction) {
