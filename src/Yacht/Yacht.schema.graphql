@@ -1,0 +1,63 @@
+type Yacht {
+	Id: Int!
+	Total: Int
+	CreatedAt: Date
+	UpdatedAt: Date
+
+	User: User
+	Turns: [YachtTurn]
+}
+
+type YachtTurn {
+	Id: Int!
+	RollOne: [Int]
+	RollTwo: [Int]
+	RollThree: [Int]
+	Category: YachtCategory
+	Score: Int
+}
+
+type YachScoreOption {
+	Category: YachtCategory
+	Score: Int
+}
+
+enum YachtCategory {
+	Ones
+	Twos
+	Threes
+	Fours
+	Fives
+	Sixes
+	FullHouse
+	FourOfKind
+	LittleStraight
+	BigStraight
+	Choice
+	Yacht
+}
+
+input YachtRollInput {
+	Keep: [Int!]
+}
+
+input YachtScoreInput {
+	Dice: [Int!]!
+	Category: YachtCategory!
+}
+
+type YachtRollResult {
+	Turn: YachtTurn
+	Options: [YachScoreOption]
+}
+
+type Query {
+	yachts: [Yacht]
+	yacht(Id: Int!): Yacht
+}
+
+type Mutation {
+	yachtCreate(UserId: Int): Yacht
+	yachtRoll(Id: Int!, roll: YachtRollInput!): YachtRollResult
+	yachtScoreTurn(Id: Int!, score: YachtScoreInput!): YachtTurn
+}

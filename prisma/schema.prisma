@@ -244,6 +244,7 @@ model User {
   HangMen    HangMan[]
   GuessWords GuessWord[]
   SeaBattles SeaBattle[]
+  Yachts     Yacht[]
 }
 
 model Word {
@@ -255,4 +256,44 @@ model Word {
 
   HangMen    HangMan[]
   GuessWords GuessWord[]
+}
+
+model Yacht {
+  Id        Int      @id @default(autoincrement())
+  UserId    Int?
+  Total     Int?
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+
+  User  User?       @relation(fields: [UserId], references: [Id])
+  Turns YachtTurn[]
+}
+
+model YachtTurn {
+  Id        Int            @id @default(autoincrement())
+  YachtId   Int
+  RollOne   String?        @db.VarChar(10)
+  RollTwo   String?        @db.VarChar(10)
+  RollThree String?        @db.VarChar(10)
+  Category  YachtCategory?
+  Score     Int?
+  CreatedAt DateTime       @default(now())
+  UpdatedAt DateTime       @updatedAt
+
+  Yacht Yacht @relation(fields: [YachtId], references: [Id])
+}
+
+enum YachtCategory {
+  Ones
+  Twos
+  Threes
+  Fours
+  Fives
+  Sixes
+  FullHouse
+  FourOfKind
+  LittleStraight
+  BigStraight
+  Choice
+  Yacht
 }
