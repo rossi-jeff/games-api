@@ -28,6 +28,8 @@ const config: CodegenConfig = {
 					SeaBattleTurnGridPoint:
 						'../src/SeaBattle/types#SeaBattleTurnGridPointType',
 					SeaBattleShipHit: '../src/SeaBattle/types#SeaBattleShipHitType',
+					Yacht: '../src/Yacht/types#YachtType',
+					YachtTurn: '../src/Yacht/types#YachtTurnType',
 				},
 			},
 		},
