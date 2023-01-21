@@ -29,9 +29,20 @@ type RateResult {
   Ratings: [Rating]
 }
 
+input WordHintInput {
+  Length: Int!
+  Green: [String]
+  Gray: [String!]
+}
+
+type HintResult {
+  Hints: [String]
+}
+
 type Query {
   wordRandom(filter: WordFilter): Word
   word(Id: Int!): Word
   wordStats: [WordStat]
   wordRate(Id: Int!, Guess: String!): RateResult
+  wordHints(filter: WordHintInput!): HintResult
 }
