@@ -1,20 +1,26 @@
 type User {
-  Id: Int!
-  UserName: String
-  CreatedAt: Date
-  UpdatedAt: Date
+	Id: Int!
+	UserName: String
+	CreatedAt: Date
+	UpdatedAt: Date
+}
+
+type LoginResponse {
+	UserName: String!
+	Token: String!
 }
 
 type Query {
-  user(Id: Int!): User
+	user(Id: Int!): User
+	userLogin(UserName: String!, PassWord: String!): LoginResponse
 }
 
 type Mutation {
-  userCreate(UserName: String!, PassWord: String!): User
-  userUpdate(Id: Int!, UserName: String!): User
-  userChangePassWord(
-    UserName: String!
-    OldPassWord: String!
-    NewPassWord: String!
-  ): User
+	userRegister(UserName: String!, PassWord: String!): User
+	userUpdate(Id: Int!, UserName: String!): User
+	userChangePassWord(
+		UserName: String!
+		OldPassWord: String!
+		NewPassWord: String!
+	): User
 }
