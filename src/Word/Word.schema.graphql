@@ -1,48 +1,49 @@
 type Word {
-  Id: Int!
-  Word: String
-  Length: Int
-  CreatedAt: Date
-  UpdatedAt: Date
+	Id: Int!
+	Word: String
+	Length: Int
+	CreatedAt: Date
+	UpdatedAt: Date
 }
 
 type WordStat {
-  Length: Int
-  Count: Int
+	Length: Int
+	Count: Int
 }
 
 input WordFilter {
-  Min: Int
-  Max: Int
-  Length: Int
+	Min: Int
+	Max: Int
+	Length: Int
 }
 
 enum Rating {
-  Green
-  Brown
-  Gray
+	Green
+	Brown
+	Gray
 }
 
 type RateResult {
-  Id: Int
-  Guess: String
-  Ratings: [Rating]
+	Id: Int
+	Guess: String
+	Ratings: [Rating]
 }
 
 input WordHintInput {
-  Length: Int!
-  Green: [String]
-  Gray: [String!]
+	Length: Int!
+	Green: [String]
+	Brown: [[String!]]
+	Gray: [String!]
 }
 
 type HintResult {
-  Hints: [String]
+	Hints: [String]
 }
 
 type Query {
-  wordRandom(filter: WordFilter): Word
-  word(Id: Int!): Word
-  wordStats: [WordStat]
-  wordRate(Id: Int!, Guess: String!): RateResult
-  wordHints(filter: WordHintInput!): HintResult
+	wordRandom(filter: WordFilter): Word
+	word(Id: Int!): Word
+	wordStats: [WordStat]
+	wordRate(Id: Int!, Guess: String!): RateResult
+	wordHints(filter: WordHintInput!): HintResult
 }
