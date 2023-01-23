@@ -2,3 +2,4 @@ node_modules
 generated
 seed/usa2.txt
 .env
+.env.local
