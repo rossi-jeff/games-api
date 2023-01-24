@@ -76,7 +76,7 @@ type Query {
 }
 
 type Mutation {
-  seaBattleCreate(Axis: Int!, UserId: Int): SeaBattle
+  seaBattleCreate(Axis: Int!): SeaBattle
   seaBattleShip(Id: Int!, ship: ShipInput!): SeaBattleShip
   seaBattleShipMove(Id: Int!, GridPoints: [GridPointInput!]!): SeaBattleShip
   seaBattleTurn(Id: Int!, turn: SeaBattleTurnInput!): SeaBattleTurn

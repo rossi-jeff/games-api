@@ -57,7 +57,7 @@ type Query {
 }
 
 type Mutation {
-  yachtCreate(UserId: Int): Yacht
+  yachtCreate: Yacht
   yachtRoll(Id: Int!, roll: YachtRollInput!): YachtRollResult
   yachtScoreTurn(Id: Int!, score: YachtScoreInput!): YachtTurn
 }
