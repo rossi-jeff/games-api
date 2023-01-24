@@ -1,56 +1,82 @@
 type CodeBreaker {
-  Id: Int!
-  Status: GameStatus
-  Columns: Int
-  CreatedAt: Date
-  UpdatedAt: Date
+	Id: Int!
+	Status: GameStatus
+	Columns: Int
+	Colors: Int
+	Score: Int
+	CreatedAt: Date
+	UpdatedAt: Date
 
-  User: User
-  Guesses: [CodeBreakerGuess]
+	User: User
+	Guesses: [CodeBreakerGuess]
 }
 
 type CodeBreakerGuess {
-  Id: Int!
-  Guess: [CodeBreakerGuessColor]
-  Keys: [CodeBreakerGuessKey]
+	Id: Int!
+	Guess: [CodeBreakerGuessColor]
+	Keys: [CodeBreakerGuessKey]
 }
 
 type CodeBreakerGuessColor {
-  Color: Color
+	Color: Color
 }
 
 type CodeBreakerGuessKey {
-  Key: Key
+	Key: Key
 }
 
 type CodeBreakerCode {
-  Color: Color
+	Color: Color
 }
 
 enum Color {
-  Red
-  Orange
-  Yellow
-  Green
-  Blue
-  Purple
-  Brown
-  Black
-  White
+	Red
+	Orange
+	Yellow
+	Green
+	Blue
+	Purple
+	Brown
+	Black
+	White
 }
 
 enum Key {
-  Black
-  White
+	Black
+	White
+}
+
+input CodeBreakerOrderInput {
+	Columns: OrderBy
+	Colors: OrderBy
+	Score: OrderBy
+}
+
+type CodeBreakerOrder {
+	Columns: OrderBy
+	Colors: OrderBy
+	Score: OrderBy
+}
+
+type CodeBreakerResult {
+	Items: [CodeBreaker!]
+	OrderBy: CodeBreakerOrder
+	Skip: Int!
+	Take: Int!
+	Count: Int!
 }
 
 type Query {
-  codeBreakers: [CodeBreaker]
-  codeBreaker(Id: Int!): CodeBreaker
-  codeBreakerSolution(Id: Int!): [CodeBreakerCode]
+	codeBreakers(
+		OrderBy: CodeBreakerOrderInput
+		Skip: Int
+		Take: Int
+	): CodeBreakerResult
+	codeBreaker(Id: Int!): CodeBreaker
+	codeBreakerSolution(Id: Int!): [CodeBreakerCode]
 }
 
 type Mutation {
-  codeBreakerCreate(Colors: [Color!]!, Columns: Int!): CodeBreaker
-  codeBreakerGuess(Id: Int!, Colors: [Color!]!): CodeBreakerGuess
+	codeBreakerCreate(Colors: [Color!]!, Columns: Int!): CodeBreaker
+	codeBreakerGuess(Id: Int!, Colors: [Color!]!): CodeBreakerGuess
 }

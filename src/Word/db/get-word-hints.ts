@@ -34,6 +34,22 @@ export const matchBrown = (word: string, brown?: arrayOrNull[]) => {
 	return false
 }
 
+export const notHasAllLetters = (
+	word: string,
+	green: stringOrNull[],
+	brown?: arrayOrNull[]
+) => {
+	if (!green || !brown) return false
+	let allLetters: string[] = []
+	for (let i = 0; i < word.length; i++) {
+		if (typeof green[i] === 'string') allLetters.push(green[i] ?? '')
+		if (brown[i] && brown[i]?.length) brown[i]?.map((l) => allLetters.push(l))
+	}
+	allLetters = [...new Set(allLetters)]
+	for (let letter of allLetters) if (!word.includes(letter)) return true
+	return false
+}
+
 export const getWordHints = async (args: QueryWordHintsArgs) => {
 	const { Length, Green, Gray, Brown } = args.filter
 	const results = await db.client().word.findMany({
@@ -50,6 +66,7 @@ export const getWordHints = async (args: QueryWordHintsArgs) => {
 		if (Gray && matchGray(word, Gray)) continue
 		if (Green && notMatchGreen(word, Green)) continue
 		if (Brown && matchBrown(word, Brown)) continue
+		if (Green && Brown && notHasAllLetters(word, Green, Brown)) continue
 		Hints.push(word)
 	}
 	return { Hints }

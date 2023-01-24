@@ -3,23 +3,84 @@ import { db } from '../../db'
 import { GameStatus } from '../../HangMan/types'
 import { Color, Key } from '../types'
 
-export const MaxTurns = 12
+const perColor: number = 25
+const perColumn: number = 25
+const perGuess: number = -50
+const perBlack: number = 10
+const perWhite: number = 5
 
 export const codeBreakerStatus = (
 	Colors: Color[],
 	black: number[],
-	count: number
+	count: number,
+	columns: number
 ) => {
 	if (Colors.length === black.length) return GameStatus.Won
-	if (count >= MaxTurns) return GameStatus.Lost
+	if (count >= columns * 2) return GameStatus.Lost
 	return GameStatus.Playing
+}
+
+export const calculateScore = async (Id: number) => {
+	let Score: number = 0
+	const existing = await db.client().codeBreaker.findFirst({
+		where: {
+			Id,
+		},
+		select: {
+			Colors: true,
+			Columns: true,
+		},
+	})
+	if (!existing) throw new Error('Code breaker not found')
+	const { Colors, Columns } = existing
+	Score += Colors * perColor
+	Score += Columns * perColumn
+	const guesses = await db.client().codeBreakerGuess.findMany({
+		where: {
+			CodeBreakerId: Id,
+		},
+		include: {
+			Keys: true,
+		},
+	})
+	for (let guess of guesses) {
+		Score += perGuess
+		for (let key of guess.Keys) {
+			switch (key.Key) {
+				case Key.Black:
+					Score += perBlack
+					break
+				case Key.White:
+					Score += perWhite
+					break
+			}
+		}
+	}
+	return await db.client().codeBreaker.update({
+		where: {
+			Id,
+		},
+		data: {
+			Score,
+		},
+	})
 }
 
 export const rateCodeBreakerGuess = async (
 	args: MutationCodeBreakerGuessArgs
 ) => {
 	const { Id, Colors } = args
-	const existing = await db.client().codeBreakerCode.findMany({
+	const existing = await db.client().codeBreaker.findFirst({
+		where: {
+			Id,
+		},
+		select: {
+			Columns: true,
+		},
+	})
+	if (!existing) throw new Error('Code breaker not found')
+	const { Columns } = existing
+	const codeBreakerCodes = await db.client().codeBreakerCode.findMany({
 		where: {
 			CodeBreakerId: Id,
 		},
@@ -30,7 +91,7 @@ export const rateCodeBreakerGuess = async (
 			Color: true,
 		},
 	})
-	const code = existing.map((c) => c.Color)
+	const code = codeBreakerCodes.map((c) => c.Color)
 	if (code.length != Colors.length) throw new Error('Incorrect guess length')
 	let black: number[] = []
 	let white: number[] = []
@@ -82,7 +143,7 @@ export const rateCodeBreakerGuess = async (
 			CodeBreakerId: Id,
 		},
 	})
-	const Status: GameStatus = codeBreakerStatus(Colors, black, count)
+	const Status: GameStatus = codeBreakerStatus(Colors, black, count, Columns)
 	await db.client().codeBreaker.update({
 		where: {
 			Id,
@@ -91,6 +152,7 @@ export const rateCodeBreakerGuess = async (
 			Status,
 		},
 	})
+	if (Status != GameStatus.Playing) await calculateScore(Id)
 	return await db.client().codeBreakerGuess.findFirst({
 		where: {
 			Id: codeBreakerGuess.Id,
