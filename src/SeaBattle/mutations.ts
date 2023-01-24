@@ -7,12 +7,16 @@ import {
 import { createSeaBattle } from "./db/create-sea-battle";
 import { addSeaBattleShip } from "./db/add-sea-battle-ship";
 import { turnSeaBattle } from "./db/turn-sea-battle";
+import { decodeToken } from "../decode-token";
 
 export const seaBattleCreate: MutationResolvers["seaBattleCreate"] = async (
   _,
-  args: MutationSeaBattleCreateArgs
+  args: MutationSeaBattleCreateArgs,
+  context
 ) => {
-  return await createSeaBattle(args);
+  const { token } = context;
+  const { UserId } = decodeToken(token);
+  return await createSeaBattle(args, UserId);
 };
 
 export const seaBattleShip: MutationResolvers["seaBattleShip"] = async (

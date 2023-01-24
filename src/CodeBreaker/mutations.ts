@@ -1,21 +1,25 @@
 import {
-	MutationCodeBreakerCreateArgs,
-	MutationCodeBreakerGuessArgs,
-	MutationResolvers,
-} from '../../generated/graphql'
-import { createCodeBreaker } from './db/create-code-breaker'
-import { rateCodeBreakerGuess } from './db/rate-code-breaker-guess'
+  MutationCodeBreakerCreateArgs,
+  MutationCodeBreakerGuessArgs,
+  MutationResolvers,
+} from "../../generated/graphql";
+import { decodeToken } from "../decode-token";
+import { createCodeBreaker } from "./db/create-code-breaker";
+import { rateCodeBreakerGuess } from "./db/rate-code-breaker-guess";
 
-export const codeBreakerCreate: MutationResolvers['codeBreakerCreate'] = async (
-	_,
-	args: MutationCodeBreakerCreateArgs
+export const codeBreakerCreate: MutationResolvers["codeBreakerCreate"] = async (
+  _,
+  args: MutationCodeBreakerCreateArgs,
+  context
 ) => {
-	return await createCodeBreaker(args)
-}
+  const { token } = context;
+  const { UserId } = decodeToken(token);
+  return await createCodeBreaker(args, UserId);
+};
 
-export const codeBreakerGuess: MutationResolvers['codeBreakerGuess'] = async (
-	_,
-	args: MutationCodeBreakerGuessArgs
+export const codeBreakerGuess: MutationResolvers["codeBreakerGuess"] = async (
+  _,
+  args: MutationCodeBreakerGuessArgs
 ) => {
-	return await rateCodeBreakerGuess(args)
-}
+  return await rateCodeBreakerGuess(args);
+};
