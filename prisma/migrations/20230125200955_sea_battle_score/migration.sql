@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `SeaBattle` ADD COLUMN `Score` INTEGER NOT NULL DEFAULT 0;

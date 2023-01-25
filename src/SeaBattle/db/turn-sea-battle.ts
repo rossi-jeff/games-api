@@ -1,9 +1,10 @@
 import { SeaBattleShip } from '../../../generated/games-db'
 import { MutationSeaBattleTurnArgs } from '../../../generated/graphql'
 import { db } from '../../db'
-import { ShipType, Target } from '../types'
+import { Navy, ShipType, Target } from '../types'
 import { buildAvailableGrid } from './build-avalable-grid'
 import { setGameStatus } from './set-game-status'
+import { GameStatus } from '../../../generated/games-db/index'
 
 const getShipType = (ship: SeaBattleShip) => {
 	switch (ship.Type) {
@@ -20,6 +21,48 @@ const getShipType = (ship: SeaBattleShip) => {
 		default:
 			return undefined
 	}
+}
+
+const perMiss = -5
+const perHit = 10
+const perSunk = 25
+
+const calculateSeaBattleScore = async (Id: number) => {
+	let Score: number = 0
+	const missses = await db.client().seaBattleTurn.count({
+		where: {
+			SeaBattleId: Id,
+			Navy: Navy.Player,
+			Target: Target.Miss,
+		},
+	})
+	Score += missses * perMiss
+	const ships = await db.client().seaBattleShip.findMany({
+		where: {
+			SeaBattleId: Id,
+		},
+		include: {
+			Hits: true,
+		},
+	})
+	const playerShips = ships.filter((s) => s.Navy === Navy.Player)
+	for (let ship of playerShips) {
+		if (ship.Sunk) Score -= perSunk
+		if (ship.Hits && ship.Hits.length) Score -= ship.Hits.length * perHit
+	}
+	const opponentShips = ships.filter((s) => s.Navy === Navy.Opponent)
+	for (let ship of opponentShips) {
+		if (ship.Sunk) Score += perSunk
+		if (ship.Hits && ship.Hits.length) Score += ship.Hits.length * perHit
+	}
+	return await db.client().seaBattle.update({
+		where: {
+			Id,
+		},
+		data: {
+			Score,
+		},
+	})
 }
 
 export const turnSeaBattle = async (args: MutationSeaBattleTurnArgs) => {
@@ -172,6 +215,8 @@ export const turnSeaBattle = async (args: MutationSeaBattleTurnArgs) => {
 			Vertical: vertical,
 		},
 	})
-	await setGameStatus(Id)
+	const updated = await setGameStatus(Id)
+	if (updated && updated.Status != GameStatus.Playing)
+		await calculateSeaBattleScore(Id)
 	return turn
 }

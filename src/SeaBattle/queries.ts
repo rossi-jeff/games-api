@@ -1,9 +1,16 @@
-import { QueryResolvers, QuerySeaBattleArgs } from '../../generated/graphql'
+import {
+	QueryResolvers,
+	QuerySeaBattleArgs,
+	QuerySeaBattlesArgs,
+} from '../../generated/graphql'
 import { getSeaBattle } from './db/get-sea-battle'
 import { getSeaBattles } from './db/get-sea-battles'
 
-export const seaBattles: QueryResolvers['seaBattles'] = async () => {
-	return await getSeaBattles()
+export const seaBattles: QueryResolvers['seaBattles'] = async (
+	_,
+	args: QuerySeaBattlesArgs
+) => {
+	return await getSeaBattles(args)
 }
 
 export const seaBattle: QueryResolvers['seaBattle'] = async (
