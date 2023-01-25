@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `HangMan` ADD COLUMN `Score` INTEGER NOT NULL DEFAULT 0;

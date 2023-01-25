@@ -2,6 +2,27 @@ import { MutationHangManGuessArgs } from '../../../generated/graphql'
 import { db } from '../../db'
 import { GameStatus } from '../types'
 
+const perCorrect = 10
+const perWrong = -10
+
+export const calculateHangManScore = async (
+	Id: number,
+	correct: string[],
+	wrong: string[]
+) => {
+	let Score: number = 0
+	Score += perCorrect * correct.length
+	Score += perWrong * wrong.length
+	return await db.client().hangMan.update({
+		where: {
+			Id,
+		},
+		data: {
+			Score,
+		},
+	})
+}
+
 export const arrayIntersect = (a: string[], b: string[]) => {
 	var setB = new Set(b)
 	return [...new Set(a)].filter((x) => setB.has(x))
@@ -37,10 +58,10 @@ export const guessHangMan = async (args: MutationHangManGuessArgs) => {
 	})
 	if (!existing) throw new Error('Hangman not found')
 	const { Word, Correct: CorrectStr, Wrong: WrongStr } = existing
-	const CorrectArr: string[] = CorrectStr.trim()
+	let CorrectArr: string[] = CorrectStr.trim()
 		.split(',')
 		.filter((x) => x.length > 0)
-	const WrongArr: string[] = WrongStr.trim()
+	let WrongArr: string[] = WrongStr.trim()
 		.split(',')
 		.filter((x) => x.length > 0)
 	let Found: boolean = false
@@ -50,7 +71,12 @@ export const guessHangMan = async (args: MutationHangManGuessArgs) => {
 	} else {
 		WrongArr.push(Guess)
 	}
+	// ensure uniqueness
+	CorrectArr = [...new Set(CorrectArr)]
+	WrongArr = [...new Set(WrongArr)]
 	const Status: GameStatus = hangManStatus(Word.Word, CorrectArr, WrongArr)
+	if (Status != GameStatus.Playing)
+		await calculateHangManScore(Id, CorrectArr, WrongArr)
 	const hangMan = await db.client().hangMan.update({
 		where: {
 			Id,

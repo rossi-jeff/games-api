@@ -131,6 +131,7 @@ model HangMan {
   Correct   String
   Wrong     String
   Status    GameStatus
+  Score     Int        @default(0)
   CreatedAt DateTime   @default(now())
   UpdatedAt DateTime   @updatedAt
 

@@ -1,9 +1,16 @@
-import { QueryHangManArgs, QueryResolvers } from '../../generated/graphql'
+import {
+	QueryHangManArgs,
+	QueryHangMenArgs,
+	QueryResolvers,
+} from '../../generated/graphql'
 import { getHangMan } from './db/get-hang-man'
 import { getHangMen } from './db/get-hang-men'
 
-export const hangMen: QueryResolvers['hangMen'] = async () => {
-	return await getHangMen()
+export const hangMen: QueryResolvers['hangMen'] = async (
+	_,
+	args: QueryHangMenArgs
+) => {
+	return await getHangMen(args)
 }
 
 export const hangMan: QueryResolvers['hangMan'] = async (

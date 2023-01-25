@@ -1,34 +1,42 @@
 type HangMan {
-  Id: Int!
-  Correct: [String]
-  Wrong: [String]
-  Status: GameStatus
-  CreatedAt: Date
-  UpdatedAt: Date
+	Id: Int!
+	Correct: [String]
+	Wrong: [String]
+	Status: GameStatus
+	Score: Int
+	CreatedAt: Date
+	UpdatedAt: Date
 
-  User: User
-  Word: Word
+	User: User
+	Word: Word
 }
 
 enum GameStatus {
-  Playing
-  Won
-  Lost
+	Playing
+	Won
+	Lost
 }
 
 type GuessResult {
-  hangMan: HangMan
-  Guess: String
-  Found: Boolean
-  Status: GameStatus
+	hangMan: HangMan
+	Guess: String
+	Found: Boolean
+	Status: GameStatus
+}
+
+type HangManResult {
+	Items: [HangMan]
+	Skip: Int!
+	Take: Int!
+	Count: Int!
 }
 
 type Query {
-  hangMen: [HangMan]
-  hangMan(Id: Int!): HangMan
+	hangMen(Skip: Int, Take: Int): HangManResult
+	hangMan(Id: Int!): HangMan
 }
 
 type Mutation {
-  hangManCreate(WordId: Int!): HangMan
-  hangManGuess(Id: Int!, Guess: String!): GuessResult
+	hangManCreate(WordId: Int!): HangMan
+	hangManGuess(Id: Int!, Guess: String!): GuessResult
 }
