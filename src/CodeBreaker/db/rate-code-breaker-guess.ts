@@ -20,7 +20,7 @@ export const codeBreakerStatus = (
 	return GameStatus.Playing
 }
 
-export const calculateScore = async (Id: number) => {
+export const calculateCodeBreakerScore = async (Id: number) => {
 	let Score: number = 0
 	const existing = await db.client().codeBreaker.findFirst({
 		where: {
@@ -152,7 +152,7 @@ export const rateCodeBreakerGuess = async (
 			Status,
 		},
 	})
-	if (Status != GameStatus.Playing) await calculateScore(Id)
+	if (Status != GameStatus.Playing) await calculateCodeBreakerScore(Id)
 	return await db.client().codeBreakerGuess.findFirst({
 		where: {
 			Id: codeBreakerGuess.Id,
