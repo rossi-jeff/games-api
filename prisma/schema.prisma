@@ -16,6 +16,8 @@ model CodeBreaker {
   UserId    Int?
   Status    GameStatus
   Columns   Int
+  Colors    Int
+  Score     Int        @default(0)
   CreatedAt DateTime   @default(now())
   UpdatedAt DateTime   @updatedAt
 
@@ -92,6 +94,7 @@ model GuessWord {
   WordId    Int
   UserId    Int?
   Status    GameStatus
+  Score     Int        @default(0)
   CreatedAt DateTime   @default(now())
   UpdatedAt DateTime   @updatedAt
 
@@ -128,6 +131,7 @@ model HangMan {
   Correct   String
   Wrong     String
   Status    GameStatus
+  Score     Int        @default(0)
   CreatedAt DateTime   @default(now())
   UpdatedAt DateTime   @updatedAt
 
@@ -146,6 +150,7 @@ model SeaBattle {
   UserId    Int?
   Axis      Int
   Status    GameStatus
+  Score     Int        @default(0)
   CreatedAt DateTime   @default(now())
   UpdatedAt DateTime   @updatedAt
 

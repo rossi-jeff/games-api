@@ -2,13 +2,55 @@ import { MutationGuessWordGuessArgs, Rating } from '../../../generated/graphql'
 import { db } from '../../db'
 import { GameStatus } from '../../HangMan/types'
 
-export const MaxGuesses = 10
+const perLetter: number = 25
+const perGuess: number = -30
+const perGreen: number = 10
+const perBrown: number = 5
+const perGray: number = -5
+
+export const calculateGuessWordScore = async (Id: number, length: number) => {
+	let Score: number = length * perLetter
+	const guesses = await db.client().guessWordGuess.findMany({
+		where: {
+			GuessWordId: Id,
+		},
+		include: {
+			Ratings: true,
+		},
+	})
+	for (let guess of guesses) {
+		Score += perGuess
+		for (let rating of guess.Ratings) {
+			switch (rating.Rating) {
+				case Rating.Green:
+					Score += perGreen
+					break
+				case Rating.Brown:
+					Score += perBrown
+					break
+				case Rating.Gray:
+					Score += perGray
+					break
+			}
+		}
+	}
+	return await db.client().guessWord.update({
+		where: {
+			Id,
+		},
+		data: {
+			Score,
+		},
+	})
+}
 
 export const getGuessWordStatus = (
 	Guess: string,
 	green: number[],
-	count: number
+	count: number,
+	wordLength: number
 ) => {
+	const MaxGuesses: number = Math.ceil((wordLength * 3) / 2)
 	if (Guess.length === green.length) return GameStatus.Won
 	if (count >= MaxGuesses) return GameStatus.Lost
 	return GameStatus.Playing
@@ -25,7 +67,8 @@ export const rateGuessWordGuess = async (args: MutationGuessWordGuessArgs) => {
 		},
 	})
 	if (!existing) throw new Error('guess word not found')
-	const word: string[] = existing.Word.Word.split('')
+	const { Word, Length } = existing.Word
+	const word: string[] = Word.split('')
 	const green: number[] = []
 	const gray: number[] = []
 	const brown: number[] = []
@@ -80,7 +123,8 @@ export const rateGuessWordGuess = async (args: MutationGuessWordGuessArgs) => {
 			})
 		}
 	}
-	const Status: GameStatus = getGuessWordStatus(Guess, green, count)
+	const Status: GameStatus = getGuessWordStatus(Guess, green, count, Length)
+	if (Status != GameStatus.Playing) await calculateGuessWordScore(Id, Length)
 	return await db.client().guessWord.update({
 		where: {
 			Id,
