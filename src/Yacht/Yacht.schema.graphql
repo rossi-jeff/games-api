@@ -1,63 +1,70 @@
 type Yacht {
-  Id: Int!
-  Total: Int
-  CreatedAt: Date
-  UpdatedAt: Date
+	Id: Int!
+	Total: Int
+	CreatedAt: Date
+	UpdatedAt: Date
 
-  User: User
-  Turns: [YachtTurn]
+	User: User
+	Turns: [YachtTurn]
 }
 
 type YachtTurn {
-  Id: Int!
-  RollOne: [Int]
-  RollTwo: [Int]
-  RollThree: [Int]
-  Category: YachtCategory
-  Score: Int
+	Id: Int!
+	RollOne: [Int]
+	RollTwo: [Int]
+	RollThree: [Int]
+	Category: YachtCategory
+	Score: Int
 }
 
 type YachtScoreOption {
-  Category: YachtCategory
-  Score: Int
+	Category: YachtCategory
+	Score: Int
 }
 
 enum YachtCategory {
-  Ones
-  Twos
-  Threes
-  Fours
-  Fives
-  Sixes
-  FullHouse
-  FourOfKind
-  LittleStraight
-  BigStraight
-  Choice
-  Yacht
+	Ones
+	Twos
+	Threes
+	Fours
+	Fives
+	Sixes
+	FullHouse
+	FourOfKind
+	LittleStraight
+	BigStraight
+	Choice
+	Yacht
 }
 
 input YachtRollInput {
-  Keep: [Int!]
+	Keep: [Int!]
 }
 
 input YachtScoreInput {
-  Dice: [Int!]!
-  Category: YachtCategory!
+	Dice: [Int!]!
+	Category: YachtCategory!
 }
 
 type YachtRollResult {
-  Turn: YachtTurn
-  Options: [YachtScoreOption]
+	Turn: YachtTurn
+	Options: [YachtScoreOption]
+}
+
+type YachtResult {
+	Items: [Yacht]
+	Skip: Int!
+	Take: Int!
+	Count: Int!
 }
 
 type Query {
-  yachts: [Yacht]
-  yacht(Id: Int!): Yacht
+	yachts(Skip: Int, Take: Int): YachtResult
+	yacht(Id: Int!): Yacht
 }
 
 type Mutation {
-  yachtCreate: Yacht
-  yachtRoll(Id: Int!, roll: YachtRollInput!): YachtRollResult
-  yachtScoreTurn(Id: Int!, score: YachtScoreInput!): YachtTurn
+	yachtCreate: Yacht
+	yachtRoll(Id: Int!, roll: YachtRollInput!): YachtRollResult
+	yachtScoreTurn(Id: Int!, score: YachtScoreInput!): YachtTurn
 }
