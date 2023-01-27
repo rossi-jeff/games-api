@@ -3,3 +3,7 @@ generated
 seed/usa2.txt
 .env
 .env.local
+.env.remote
+.env.tunnel
+db.txt
+tunnel.sh
