@@ -1,10 +1,10 @@
-import { SeaBattleShip } from '../../../generated/games-db'
+import { SeaBattleShip } from '@prisma/client'
 import { MutationSeaBattleTurnArgs } from '../../../generated/graphql'
 import { db } from '../../db'
 import { Navy, ShipType, Target } from '../types'
 import { buildAvailableGrid } from './build-avalable-grid'
 import { setGameStatus } from './set-game-status'
-import { GameStatus } from '../../../generated/games-db/index'
+import { GameStatus } from '../../HangMan/types'
 
 const getShipType = (ship: SeaBattleShip) => {
 	switch (ship.Type) {

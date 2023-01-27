@@ -1,35 +1,39 @@
 {
-  "name": "games-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "codegen": "graphql-codegen --config codegen.ts",
-    "start": "nodemon src/server.ts",
-    "migrate": "npx prisma migrate dev",
-    "seed:words": "ts-node seed/words.ts",
-    "clear": "ts-node seed/clear.ts"
-  },
-  "keywords": [],
-  "author": "Jeff Rossi <rossi.jeff@gmail.com>",
-  "license": "ISC",
-  "devDependencies": {
-    "@graphql-codegen/cli": "2.16.4",
-    "@graphql-codegen/typescript": "2.8.7",
-    "@graphql-codegen/typescript-resolvers": "2.7.12",
-    "@types/bcrypt": "^5.0.0",
-    "@types/node": "^18.11.18",
-    "nodemon": "^2.0.20",
-    "prisma": "^4.8.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.4"
-  },
-  "dependencies": {
-    "@graphql-tools/load-files": "^6.6.1",
-    "@prisma/client": "^4.8.1",
-    "apollo-server": "^3.11.1",
-    "bcrypt": "^5.1.0",
-    "jsonwebtoken": "^9.0.0"
-  }
+	"name": "games-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"codegen": "graphql-codegen --config codegen.ts",
+		"start:dev": "nodemon src/server.ts",
+		"start": "node dist/src/server.js",
+		"migrate": "npx prisma migrate dev",
+		"seed:words": "ts-node seed/words.ts",
+		"clear": "ts-node seed/clear.ts",
+		"build": "npm run codegen && npm run generate && rm -rf dist && npx tsc",
+		"generate": "npx prisma generate",
+		"push": "npx prisma db push"
+	},
+	"keywords": [],
+	"author": "Jeff Rossi <rossi.jeff@gmail.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"@graphql-codegen/cli": "2.16.4",
+		"@graphql-codegen/typescript": "2.8.7",
+		"@graphql-codegen/typescript-resolvers": "2.7.12",
+		"@types/bcrypt": "^5.0.0",
+		"@types/node": "^18.11.18",
+		"nodemon": "^2.0.20",
+		"prisma": "^4.8.1",
+		"ts-node": "^10.9.1",
+		"typescript": "^4.9.4"
+	},
+	"dependencies": {
+		"@graphql-tools/load-files": "^6.6.1",
+		"@prisma/client": "^4.8.1",
+		"apollo-server": "^3.11.1",
+		"bcrypt": "^5.1.0",
+		"jsonwebtoken": "^9.0.0"
+	}
 }

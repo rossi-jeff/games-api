@@ -4,7 +4,7 @@ import {
 	CodeBreakerGuessColor,
 	CodeBreakerGuessKey,
 	CodeBreakerCode,
-} from '../../generated/games-db'
+} from '@prisma/client'
 
 export type CodeBreakerType = CodeBreaker
 
