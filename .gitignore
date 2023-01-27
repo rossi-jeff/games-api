@@ -7,3 +7,4 @@ seed/usa2.txt
 .env.tunnel
 db.txt
 tunnel.sh
+dist

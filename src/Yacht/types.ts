@@ -1,4 +1,4 @@
-import { Yacht, YachtTurn } from '../../generated/games-db'
+import { Yacht, YachtTurn } from '@prisma/client'
 
 export type YachtType = Yacht
 

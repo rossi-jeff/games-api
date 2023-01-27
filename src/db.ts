@@ -1,7 +1,7 @@
-import { PrismaClient } from "../generated/games-db";
+import { PrismaClient } from '@prisma/client'
 
-const client = new PrismaClient();
+const client = new PrismaClient()
 
 export const db = {
-  client: () => client,
-};
+	client: () => client,
+}
