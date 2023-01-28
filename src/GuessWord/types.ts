@@ -1,4 +1,8 @@
-import { GuessWord, GuessWordGuess, GuessWordGuessRating } from '@prisma/client'
+import {
+	GuessWord,
+	GuessWordGuess,
+	GuessWordGuessRating,
+} from '../../generated/games-db'
 
 export type GuessWordType = GuessWord
 

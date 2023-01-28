@@ -1,4 +1,4 @@
-import { HangMan } from '@prisma/client'
+import { HangMan } from '../../generated/games-db'
 
 export type HangManType = HangMan
 

@@ -5,7 +5,7 @@ import {
 	SeaBattleShipGridPoint,
 	SeaBattleTurnGridPoint,
 	SeaBattleShipHit,
-} from '@prisma/client'
+} from '../../generated/games-db'
 
 export type SeaBattleType = SeaBattle
 

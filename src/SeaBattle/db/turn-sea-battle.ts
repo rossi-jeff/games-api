@@ -1,5 +1,5 @@
-import { SeaBattleShip } from '@prisma/client'
 import { MutationSeaBattleTurnArgs } from '../../../generated/graphql'
+import { SeaBattleShip } from '../../../generated/games-db'
 import { db } from '../../db'
 import { Navy, ShipType, Target } from '../types'
 import { buildAvailableGrid } from './build-avalable-grid'

@@ -1,6 +1,7 @@
 import { db } from '../../db'
 import { Navy } from '../types'
 import { GameStatus } from '../../HangMan/types'
+
 export const setGameStatus = async (Id: number) => {
 	let ships = await db.client().seaBattleShip.findMany({
 		where: {
