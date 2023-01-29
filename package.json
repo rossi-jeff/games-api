@@ -11,9 +11,10 @@
 		"migrate": "npx prisma migrate dev",
 		"seed:words": "ts-node seed/words.ts",
 		"clear": "ts-node seed/clear.ts",
-		"build": "npm run codegen && npm run generate && rm -rf dist && npx tsc",
+		"build": "npm run codegen && npm run generate && rm -rf dist && npx tsc && npm run copy-schema",
 		"generate": "npx prisma generate",
-		"push": "npx prisma db push"
+		"push": "npx prisma db push",
+		"copy-schema": "cp generated/games-db/schema.prisma dist/generated/games-db/"
 	},
 	"keywords": [],
 	"author": "Jeff Rossi <rossi.jeff@gmail.com>",
