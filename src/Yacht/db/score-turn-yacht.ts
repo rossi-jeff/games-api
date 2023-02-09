@@ -92,6 +92,9 @@ export const scoreTurnYacht = async (args: MutationYachtScoreTurnArgs) => {
 		},
 		data: {
 			Total,
+			NumTurns: {
+				increment: 1,
+			},
 		},
 	})
 

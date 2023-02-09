@@ -1,6 +1,7 @@
 type Yacht {
 	Id: Int!
 	Total: Int
+	NumTurns: Int
 	CreatedAt: Date
 	UpdatedAt: Date
 
